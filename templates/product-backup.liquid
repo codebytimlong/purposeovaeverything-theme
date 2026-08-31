@@ -1,0 +1,166 @@
+<script>
+  let product = {{product | json}};
+  const hasSizeOption = product.options.includes("Size");
+  const hasColorOption = product.options.includes("Color");
+  
+  console.log({product, hasSizeOption, hasColorOption});
+  
+  
+</script>
+
+<div class="flex flex-col-reverse md:flex-row min-w-320 w-full">
+
+  <div id="productDetails" class="w-full md:w-1/2">
+      <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="flex flex-col mt-3 md:mt-40 p-10">
+
+        <!-- Title -->
+        <div class="flex flex-col md:flex-row items-center justify-between w-full pb-1 mb-5 border-b-4 border-white">
+          <h1 class="flex-1 text-center md:text-left text-3xl md:text-5xl font-semibold">{{ product.title }}</h1>
+          <div id="price" class="flex-1 text-6xl font-bold">
+            <!-- since the current product variants are all the same price, I am using the first one. -->
+            <span class="price-for-{{product.variants[0].title}}" data-variant="{{product.variants[0].id}}">{{ product.variants[0].price | money }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-start justify-between">
+
+          {%if product.variants.size > 1 %}
+          
+          <!-- Product Variants -->
+          <div class="mb-8">
+            {%if product.title == 'The Dad Hat' %}
+            <p class="uppercase text-xs font-bold mb-2 pl-2">Choose a style</p>
+            {% else %}
+            <p class="uppercase text-xs font-bold mb-2 pl-2">Choose a size</p>
+            {% endif %}
+
+            {% if product.variants %}
+            <div class="variants">
+              {% for variant in product.variants %}
+                {% if variant.available %}
+
+                  <!-- Color variants for Dad Hat -->
+                  {%if product.title == 'The Dad Hat' %}
+                    <div class="variant variant-color inline-block">
+                      <input type="radio" class="hidden" name="id" id="variant-{{variant.id}}" data-variant="{{variant.id}}" value="{{variant.id}}" required />
+                      {%if variant.title == 'Denim' %}
+                      <label class="inline-flex items-center justify-center text-4xl font-bold rounded-full border-white border-8 hover:border-green w-24 h-24 m-2" for="variant-{{variant.id}}" style="background-image: conic-gradient(from 180deg at 50% 50%, #133C6C 0deg, rgba(42, 111, 192, 0) 360deg);"></label>
+                      {% else %}
+                      <label class="inline-flex items-center justify-center text-4xl font-bold rounded-full border-white border-8 bg-black hover:border-green w-24 h-24 m-2" for="variant-{{variant.id}}"></label>
+                      {% endif %}
+                    </div>
+
+                  <!-- Size variants for Shirt -->
+                  {% else %}
+                    <div class="variant variant-size inline-block">
+                      <input type="radio" class="hidden" name="id" id="variant-{{variant.id}}" value="{{variant.id}}" required />
+                      <label class="inline-flex items-center justify-center text-4xl font-bold rounded-full border-white border-8 text-white hover:bg-green w-24 h-24 m-2" for="variant-{{variant.id}}">{{ variant.title }}</label>
+                    </div>
+                  {% endif %}
+              
+                {% else %}
+                  <div class="variant inline-block">
+                    <input type="radio" class="hidden" name="id" id="variant-{{variant.id}}" value="{{variant.id}}" required />
+                    <label class="inline-flex items-center justify-center text-4xl font-bold rounded-full border-white border-8 text-white hover:bg-green w-24 h-24 m-2" for="variant-{{variant.id}}">{{ variant.title }}</label>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          
+          {% else %}
+         
+            <!-- this is needed to pass the variant id -->
+            <input type="radio" class="hidden" name="id" id="variant-{{product.variants[0].id}}" value="{{product.variants[0].id}}" checked />
+          
+          {% endif %}
+
+        <!-- Quantity -->
+        <div id="quantitySection" class="flex flex-col mr-10">
+          <p class="uppercase text-xs font-bold mb-2 pl-2">Select a quantity</p>
+          <div id="customQuantityInput"  class="flex flex-row items-center justify-center border-8 rounded-lg h-24 m-2 p-2">
+            <input type="number" id="Quantity" name="quantity" value="1" min="1" class="hidden">
+            <div id="add-quantity" class="inline-flex items-center justify-center text-3xl font-bold rounded-full text-white hover:bg-gray w-12 h-12 m-1"><div>+</div></div>
+            <div id="displayed-quantity" class="inline-flex items-center justify-center text-4xl font-bold text-white w-8 h-12 m-1">1</div>
+            <div id="subtract-quantity" class="inline-flex items-center justify-center text-3xl font-bold rounded-full text-white hover:bg-gray w-12 h-12 m-1"><div> - </div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex flex-row mb-8">
+        <!-- Add to Cart button -->
+        <button
+          type="submit" name="add" id="AddToCart"
+          class="border-4 border-green rounded-lg text-3xl text-green hover:text-white hover:bg-green text-semibold py-5 px-12 m-2"
+        >
+          Add To Cart
+        </button>
+      </div>
+
+        <!-- Product Description -->
+        <div class="text-3xl">{{ product.description }}</div>
+      </form>
+  </div>
+
+  <div id="productPhotos" class="w-full md:w-1/2 cursor-grab">
+    <div
+        class="splide h-full"
+        data-splide='{
+          "arrows": false,
+          "autoplay": true,
+          "interval": 3000,
+          "autoHeight": true,
+          "lazyLoad": "nearby",
+          "pagination": false,
+          "type": "loop"
+        }'
+      >
+      <div class="splide__track">
+        <ul class="splide__list">
+          {% for image in product.images %}
+            <li class="splide__slide"><img src="{{ image.src | img_url: '720x720'}}" class="w-full h-full object-cover"></li>
+          {% endfor %}
+        </ul>
+      </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener( 'DOMContentLoaded', function () {
+    new Splide( '.splide' ).mount();
+  } );
+
+  // Quantity Controls
+  let addQ, subtractQ, realInput, displayedQ, quantity, displayed_quantity;
+  addQ = document.getElementById('add-quantity');
+  subtractQ = document.getElementById('subtract-quantity');
+  realInput = document.getElementById('Quantity');
+  displayedQ = document.getElementById('displayed-quantity');
+  quantity = realInput.value === "" ? 1 : parseInt(realInput.value);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateRealQuantity(1);
+  });
+
+  addQ.addEventListener('click', () => {
+    updateRealQuantity( quantity + 1 );
+  });
+
+  subtractQ.addEventListener('click', () => {
+    if ( quantity > 0 ) {
+      updateRealQuantity( quantity - 1 );
+    }
+  } );
+
+  function updateDisplayedQuantity() {
+    displayedQ.innerHTML = quantity.toString();
+  }
+
+  function updateRealQuantity( newQ ) {
+    quantity = newQ;
+    realInput.value = quantity;
+    updateDisplayedQuantity();
+  }
+</script>
