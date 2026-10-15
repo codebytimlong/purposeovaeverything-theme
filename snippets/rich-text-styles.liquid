@@ -1,0 +1,143 @@
+<style>
+  /* Built-in policy pages: match the layout of templates/page.*.liquid. */
+  .shopify-policy__container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 10rem 1.5rem 6rem;
+  }
+  @media (min-width: 768px) {
+    .shopify-policy__container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  .shopify-policy__title h1 {
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: left;
+    border-bottom: 4px solid #ffffff;
+    padding-bottom: 1rem;
+    margin: 0 0 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .shopify-policy__title h1 { font-size: 3rem; }
+  }
+  .shopify-policy__body {
+    font-size: 1.125rem;
+    line-height: 1.625;
+  }
+
+  /* Typography for content pasted from the Shopify page editor, and for
+     Shopify's built-in policy pages (/policies/*), which have no theme
+     template. The bundled Tailwind reset strips headings, list bullets and
+     spacing, so they are restored here. */
+  :is(.rich-text, .shopify-policy__body) {
+    color: #ffffff;
+  }
+  :is(.rich-text, .shopify-policy__body) > *:first-child {
+    margin-top: 0;
+  }
+  :is(.rich-text, .shopify-policy__body) > *:last-child {
+    margin-bottom: 0;
+  }
+
+  :is(.rich-text, .shopify-policy__body) h1,
+  :is(.rich-text, .shopify-policy__body) h2,
+  :is(.rich-text, .shopify-policy__body) h3,
+  :is(.rich-text, .shopify-policy__body) h4,
+  :is(.rich-text, .shopify-policy__body) h5,
+  :is(.rich-text, .shopify-policy__body) h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 2.5rem 0 1rem;
+  }
+  :is(.rich-text, .shopify-policy__body) h1 { font-size: 2.25rem; }
+  :is(.rich-text, .shopify-policy__body) h2 { font-size: 1.875rem; }
+  :is(.rich-text, .shopify-policy__body) h3 { font-size: 1.5rem; }
+  :is(.rich-text, .shopify-policy__body) h4 { font-size: 1.25rem; }
+  :is(.rich-text, .shopify-policy__body) h5 { font-size: 1.125rem; }
+  :is(.rich-text, .shopify-policy__body) h6 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  :is(.rich-text, .shopify-policy__body) p {
+    margin: 0 0 1.25rem;
+  }
+
+  :is(.rich-text, .shopify-policy__body) a {
+    color: #32d485;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  :is(.rich-text, .shopify-policy__body) a:hover {
+    color: #ffffff;
+  }
+
+  :is(.rich-text, .shopify-policy__body) strong { font-weight: 700; }
+  :is(.rich-text, .shopify-policy__body) em { font-style: italic; }
+
+  :is(.rich-text, .shopify-policy__body) ul,
+  :is(.rich-text, .shopify-policy__body) ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.5rem;
+  }
+  :is(.rich-text, .shopify-policy__body) ul { list-style: disc; }
+  :is(.rich-text, .shopify-policy__body) ol { list-style: decimal; }
+  :is(.rich-text, .shopify-policy__body) li { margin: 0.4rem 0; }
+  :is(.rich-text, .shopify-policy__body) ul ul { list-style: circle; }
+  :is(.rich-text, .shopify-policy__body) ul ul ul { list-style: square; }
+
+  :is(.rich-text, .shopify-policy__body) blockquote {
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    border-left: 4px solid #32d485;
+    font-style: italic;
+  }
+
+  :is(.rich-text, .shopify-policy__body) hr {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 2.5rem 0;
+  }
+
+  :is(.rich-text, .shopify-policy__body) img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  :is(.rich-text, .shopify-policy__body) table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+  :is(.rich-text, .shopify-policy__body) th,
+  :is(.rich-text, .shopify-policy__body) td {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  :is(.rich-text, .shopify-policy__body) th {
+    font-weight: 700;
+  }
+
+  :is(.rich-text, .shopify-policy__body) code {
+    font-family: monospace, monospace;
+    font-size: 0.9em;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.1em 0.35em;
+    border-radius: 0.25rem;
+  }
+  :is(.rich-text, .shopify-policy__body) pre {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 0 0 1.25rem;
+  }
+</style>

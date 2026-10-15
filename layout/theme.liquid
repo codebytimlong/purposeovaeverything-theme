@@ -105,6 +105,10 @@
   <main role="main">
     {{ content_for_layout }}
   </main>
+
+  {% if request.path contains '/policies/' %}
+    {% render 'rich-text-styles' %}
+  {% endif %}
 {% render 'spurit_po2_theme_snippet' %}
 </body>
 </html>
