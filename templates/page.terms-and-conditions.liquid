@@ -1,31 +1,35 @@
 {% comment %}
   Terms and Conditions page template.
 
-  How to use:
-  1. Shopify admin -> Online Store -> Pages -> Add page.
-  2. Title it "Terms and Conditions" and, under Theme template, choose
-     `terms-and-conditions`. (Shopify does not pick templates by handle; the
-     template has to be selected on the page.)
-  3. Paste your terms into the page body, then Save.
-     Whatever you paste renders inside the styled area below.
+  Renders the terms of service from Shopify admin -> Settings -> Policies ->
+  Terms of service, so it is edited in one place and stays in sync with
+  Shopify's built-in /policies/ page and checkout links.
 
-  This template is content-driven, so the terms can be updated from the
-  admin at any time without changing any code.
+  How to use:
+  1. Fill in the policy under Settings -> Policies -> Terms of service.
+  2. Online Store -> Pages -> Add page, title it "Terms and Conditions", and under
+     Theme template choose `terms-and-conditions`. Leave the page body empty.
+
+  If the policy in Settings is empty, the page body is shown instead.
 {% endcomment %}
+
+{%- assign policy = shop.terms_of_service -%}
 
 <div class="w-full flex justify-center">
   <div class="w-full max-w-3xl px-6 pt-40 pb-24 md:px-8">
     <h1 class="text-4xl md:text-5xl font-semibold border-b-4 border-white pb-4 mb-10">
-      {{ page.title | default: 'Terms and Conditions' }}
+      {{ page.title | default: policy.title | default: 'Terms and Conditions' }}
     </h1>
 
     <div class="rich-text text-lg leading-relaxed">
-      {% if page.content != blank %}
+      {% if policy.body != blank %}
+        {{ policy.body }}
+      {% elsif page.content != blank %}
         {{ page.content }}
       {% else %}
         <p class="italic opacity-75">
-          This page is empty. Add your terms and conditions content in Shopify admin
-          under Online Store &rarr; Pages &rarr; Terms and Conditions.
+          No terms of service yet. Add it in Shopify admin under
+          Settings &rarr; Policies &rarr; Terms of service.
         </p>
       {% endif %}
     </div>
